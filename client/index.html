@@ -12,9 +12,7 @@
     <aside></aside>
     <div id="main-container">
         <div id="chat-area">
-            <div id="messages-area" class="blue-box">
-
-            </div>
+            <div id="messages-area" class="blue-box"></div>
             <form>
                 <div id="user-message-area">
                     <div id="user-message-container">
@@ -40,8 +38,8 @@
         var mySocket = new MySocket('localhost', '8080', receiveHandler);
 
         document.getElementById('send').addEventListener('click', function () {
-            console.log(document.getElementById('user-message').value);
-            mySocket.sendMessage(document.getElementById('user-message').value);
+            console.log(document.querySelector('textarea[name="user-message"]').value);
+            mySocket.sendMessage(document.querySelector('textarea[name="user-message"]').value);
         });
     </script>
 </body>
