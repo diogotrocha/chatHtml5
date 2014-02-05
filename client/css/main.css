@@ -1,0 +1,101 @@
+*, *:before, *:after {
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background-image: url('../images/background.jpg');
+}
+
+#main-header {
+    background-color: grey;
+}
+
+#main-container {
+    width: 100%;
+    text-align: center;
+}
+
+.blue-box {
+    background-color: rgba(226, 250, 255, 0.7);
+    border: solid 2px dodgerblue;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+}
+
+#chat-area {
+    background-color: rgba(100, 100, 100, 0.2);
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    border-radius: 8px;
+    padding: 20px 30px;
+    margin: 0px auto;
+    width: 1000px;
+}
+
+#messages-area {
+    height: 600px;
+
+}
+
+#user-message-area {
+    margin-top: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    height: 80px;
+}
+
+#user-message-container {
+    float: left;
+    width: 90%;
+    height: 100%;
+}
+
+#user-message-container > textarea {
+    height: 100%;
+    width: 100%;
+}
+
+#user-message-container > textarea:focus {
+    /* Override browser's default border */
+    outline: none;
+    box-shadow: 0px 0px 1px 1px dodgerblue;
+}
+
+#user-message-container > textarea::-webkit-input-placeholder {
+    font-family: 'myFont', Helvetica, sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+#user-message-container > textarea::-moz-placeholder {
+    font-family: 'myFont', Helvetica, sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+#send-button-container {
+    float: right;
+}
+
+#send-button-container > button {
+    width: 90px;
+    height: 30px;
+    font-weight: bold;
+}
+
+#send:hover {
+    cursor: pointer;
+    background-color: lightblue;
+    box-shadow: 0px 0px 1px 1px dodgerblue;
+}
+
+#main-footer {
+    background-color: grey;
+    margin-top: 20px;
+    height: 50px;
+}
