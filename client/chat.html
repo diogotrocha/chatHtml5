@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chat HTML5</title>
+    <link href="css/main.css" type="text/css" rel="stylesheet"/>
+</head>
+<body>
+    <header id="main-header">
+        <h1>Chat HTML5</h1>
+    </header>
+    <nav></nav>
+    <aside></aside>
+    <div id="main-container">
+        <section id="chat-area" class="transparent-background round-box-8px">
+            <section id="messages-area" class="blue-box"></section>
+            <form>
+                <section id="user-message-area">
+                    <div id="user-message-container">
+                        <textarea required="required" name="user-message" class="blue-box" placeholder="Insert your message"></textarea>
+                    </div>
+                    <div id="send-button-container">
+                        <button id="send" type="button" class="blue-box">Send</button>
+                    </div>
+                </section>
+            </form>
+        </section>
+    </div>
+    <footer id="main-footer" class="transparent-background">
+        <div id="copyright">&copy; Diogo Rocha</div>
+    </footer>
+    <script src="js/MySocket.js"></script>
+    <script src="js/nickname.js"></script>
+    <script>
+        var nickname = getNickname();
+        var handShakeSuccess = false;
+        var mySocket;
+
+        function receiveHandler(msg) {
+            msg = JSON.parse(msg);
+            try {
+                if (msg.new_user !== null && msg.new_user !== undefined) {
+                    if (msg.new_user === nickname) {
+                        console.log('Handshake accepted!');
+                        handShakeSuccess = true;
+                    } else {
+                        // add user to aside
+                    }
+                } else if (msg.remove_user !== null && msg.remove_user !== undefined) {
+                    // remove user from aside
+                    // show message of user disconnected
+                } else if (msg.user !== null && msg.user !== undefined) {
+                    var message = document.createElement('div');
+                    message.setAttribute('id', 'message');
+                    message.innerText = msg['message'];
+                    document.getElementById('messages-area').appendChild(message);
+                } else {
+                    console.log('Message with error:');
+                    console.log(msg);
+                }
+            } catch (e) {
+                console.error("Parsing json:", e);
+            }
+        }
+
+        function errorHandler() {
+            alert('error connecting to server!');
+        }
+
+        function handShakeHandler() {
+            mySocket.sendMessage({nickname: nickname});
+        }
+
+        if (!nickname) {
+            alert('nickname not defined!');
+        } else {
+            mySocket = new MySocket('localhost', '8080', receiveHandler, errorHandler, handShakeHandler);
+
+            document.getElementById('send').addEventListener('click', function () {
+                if (handShakeSuccess) {
+                    console.log(document.querySelector('textarea[name="user-message"]').value);
+                    mySocket.sendMessage({message: document.querySelector('textarea[name="user-message"]').value});
+                } else {
+                    alert('hand shake error');
+                }
+            });
+        }
+    </script>
+</body>
+</html>

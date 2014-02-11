@@ -1,0 +1,72 @@
+#login-box {
+    width: 400px;
+    margin-top: 100px;
+    margin-right: auto;
+    margin-left: auto;
+    padding: 50px 0;
+}
+
+#login-box header > h1 {
+    font-family: Helvetica, Arial, sans-serif;
+    margin-top: 0px;
+    color: royalblue;
+}
+
+#login-box input[type=text] {
+    width: 60%;
+    height: 50px;
+    margin-right: auto;
+    margin-left: auto;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
+    border: solid 2px dodgerblue;
+    padding-left: 5px;
+    font-family: 'myFont', Helvetica, sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    color: royalblue;
+}
+
+#login-box input[type=text] {
+    outline: none;
+}
+
+#login-box input[type=text]::-webkit-input-placeholder {
+    font-family: 'myFont', Helvetica, sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+#login-box input[type=text]::-moz-placeholder {
+    font-family: 'myFont', Helvetica, sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+#login-box #submit-btn-container {
+    margin-top: 15px;
+}
+
+#login-box button[type=submit] {
+    width: 60%;
+    height: 50px;
+    margin-right: auto;
+    margin-left: auto;
+    background-color: white;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
+    border: solid 2px dodgerblue;
+    font-family: 'myFont', Helvetica, sans-serif;
+    font-size: 20px;
+    font-weight: bold;
+    color: royalblue;
+}
+
+#login-box button[type=submit]:hover {
+    cursor: pointer;
+    outline: none;
+}
+

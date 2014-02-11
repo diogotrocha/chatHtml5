@@ -3,44 +3,24 @@
 <head>
     <title>Chat HTML5</title>
     <link href="css/main.css" type="text/css" rel="stylesheet"/>
+    <link href="css/login.css" type="text/css" rel="stylesheet"/>
 </head>
 <body>
-    <header id="main-header">
-        <h1>Chat HTML5</h1>
-    </header>
-    <nav></nav>
-    <aside></aside>
     <div id="main-container">
-        <div id="chat-area">
-            <div id="messages-area" class="blue-box"></div>
-            <form>
-                <div id="user-message-area">
-                    <div id="user-message-container">
-                        <textarea name="user-message" class="blue-box" placeholder="Insert your message"></textarea>
-                    </div>
-                    <div id="send-button-container">
-                        <button id="send" type="button" class="blue-box">Send</button>
-                    </div>
+        <section id="login-box" class="transparent-background round-box-8px">
+            <form action="chat.html" method="get">
+                <header>
+                    <h1>Start Chatting!</h1>
+                </header>
+                <div><input required="required" type="text" name="nickname" placeholder="Nickname" /></div>
+                <div id="submit-btn-container">
+                    <button type="submit">Login</button>
                 </div>
             </form>
-        </div>
+        </section>
     </div>
-    <footer id="main-footer">Diogo Rocha</footer>
-    <script src="js/MySocket.js"></script>
-    <script>
-        function receiveHandler(msg) {
-            var message = document.createElement('div');
-            message.setAttribute('id', 'message');
-            message.innerText = msg;
-            document.getElementById('messages-area').appendChild(message);
-        }
-
-        var mySocket = new MySocket('localhost', '8080', receiveHandler);
-
-        document.getElementById('send').addEventListener('click', function () {
-            console.log(document.querySelector('textarea[name="user-message"]').value);
-            mySocket.sendMessage(document.querySelector('textarea[name="user-message"]').value);
-        });
-    </script>
+    <footer id="main-footer" class="transparent-background">
+        <div id="copyright">&copy; Diogo Rocha</div>
+    </footer>
 </body>
 </html>
