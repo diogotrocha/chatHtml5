@@ -1,3 +1,7 @@
+/*
+ * MySocket Class
+ */
+
 function MySocket(host, port, receiveHandler, errorHandler, handShakeHandler) {
     this.socket = new WebSocket('ws://' + host + ':' + port);
 
@@ -21,6 +25,8 @@ function MySocket(host, port, receiveHandler, errorHandler, handShakeHandler) {
     };
 
     /*return {
+        constructor: MySocket,
+
         sendMessage: function (msg) {
             this.socket.send(msg);
         }
@@ -31,7 +37,3 @@ MySocket.prototype.sendMessage = function (msg) {
     console.log('Message to send: ' + msg);
     this.socket.send(JSON.stringify(msg));
 }
-
-
-
-

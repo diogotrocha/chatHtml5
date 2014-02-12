@@ -6,21 +6,59 @@
     <link href="css/login.css" type="text/css" rel="stylesheet"/>
 </head>
 <body>
+    <!-- page's header -->
+    <header id="main-header" class="transparent-background">
+        <!-- actions -->
+        <nav><button>Logout</button></nav>
+
+        <h4>Now Chatting</h4>
+    </header>
+
     <div id="main-container">
-        <section id="login-box" class="transparent-background round-box-8px">
-            <form action="chat.html" method="get">
+        <section id="login-box" class="transparent-background round-box-8px" style="display: none">
+            <form id="login-form">
                 <header>
                     <h1>Start Chatting!</h1>
                 </header>
-                <div><input required="required" type="text" name="nickname" placeholder="Nickname" /></div>
+                <div><input id="nickname" required="required" type="text" name="nickname" placeholder="Nickname" /></div>
                 <div id="submit-btn-container">
-                    <button type="submit">Login</button>
+                    <button id="submit-login" type="submit">Login</button>
                 </div>
             </form>
         </section>
+
+        <!-- chat area -->
+        <section id="chat-area" class="transparent-background round-box-8px">
+            <div id="messages-users">
+                <!-- users active on chat -->
+                <aside></aside>
+
+                <!-- messages section -->
+                <section id="messages-area" class="blue-box"></section>
+            </div>
+
+            <!-- input for user message -->
+            <form>
+                <section id="user-message-area">
+                    <div id="user-message-container">
+                        <textarea required="required" name="user-message" class="blue-box" placeholder="Insert your message"></textarea>
+                    </div>
+                    <div id="send-button-container">
+                        <button id="send" type="button" class="blue-box">Send</button>
+                    </div>
+                </section>
+            </form>
+        </section>
     </div>
+
+    <!-- page's footer -->
     <footer id="main-footer" class="transparent-background">
         <div id="copyright">&copy; Diogo Rocha</div>
     </footer>
+
+    <!-- javascript files load -->
+    <script src="js/MySocket.js"></script>
+    <script src="js/communication.js"></script>
+    <script src="js/login.js"></script>
 </body>
 </html>

@@ -8,33 +8,39 @@ wss.on('connection', function(ws) {
     console.log('New connection from a client');
 
     var clientId = ws['_socket']['_handle']['fd'];
-    var nClients = clients.length;
     clients.push({clientId: clientId, ws: ws});
-    console.log('Add new client to client list with id ' + clientId);
+    console.log('Added new client to client list with id ' + clientId);
 
     // message from client listener
     ws.on('message', function(message) {
         var clientId = ws['_socket']['_handle']['fd'];
+        console.log('received "%s" from client "%d"', message, clientId);
 
-        var i;
-        for (i = 0; i < clients.length; ++i) {
+        // Get array id of client that sent the message
+        var i, nClients = clients.length;
+        for (i = 0; i < nClients; ++i) {
             if (clients[i].clientId === clientId) {
                 break;
             }
         }
 
-        console.log('received "%s" from client "%d"', message, clientId);
-
         try {
-            console.log(message);
             var msg = JSON.parse(message);
-            console.log(msg);
+
+            // verify if is the message of a new client making handshake
             if (msg.nickname !== null && msg.nickname !== undefined) {
                 clients[i]['nickname'] = msg.nickname;
+                console.log('Received nickname "' + msg.nickname + '" of client' + clients[i].clientId);
 
-                console.log(msg.nickname);
-                broadcast(JSON.stringify({new_user: msg.nickname, message: "User " + msg.nickname + " joined the chat."}));
+                sendUsersToClient(clients[i]['ws']);
+
+                // notify others users of existence of new user
+                broadcast(
+                    JSON.stringify({new_user: msg.nickname, message: "User " + msg.nickname + " joined the chat."}),
+                    msg.nickname
+                );
             } else {
+                // broadcast message of user to all users
                 broadcast(JSON.stringify({user: clients[i].nickname, message: message}));
             }
         } catch (e) {
@@ -46,25 +52,36 @@ wss.on('connection', function(ws) {
     ws.on('close', function() {
         var clientId = this['_socket']['_handle']['fd'];
         console.log('disconnected client ' + this['_socket']['_handle']['fd']);
+
         var msgJson = [];
         msgJson['removed_user'] = clients[clientId]['nickname'];
         msgJson['message'] = "User " + clients[clientId]['nickname'] + " left the chat.";
         broadcast(JSON.stringify(msgJson));
+
         delete clients[clientId];
         console.log('removed client ' + clientId + ' from clients list');
     });
 
+    function sendUsersToClient(clientWs) {
+        var nicknames = [];
+        clients.forEach(function(client) {
+            nicknames.push(client.nickname);
+        });
+
+        clientWs.send(JSON.stringify({nicknames: nicknames}));
+    }
+
     // send message to all users of chat
-    function broadcast(message) {
+    function broadcast(message, except) {
         var sendedClients = [];
         var errorClients = [];
 
-        console.log(message);
-
         clients.forEach(function(client) {
-            console.log(client);
             try {
-                client['ws'].send(message);
+                if (client.nickname !== except) {
+                    client.ws.send(message);
+                }
+
                 sendedClients.push(client);
             }
             catch (e) {
@@ -72,20 +89,6 @@ wss.on('connection', function(ws) {
                 errorClients.push(client);
             }
         });
-        /*var nClients = clients.length;
-        console.log(clients);
-        console.log(nClients);
-        for (var i = 0; i < nClients; ++i) {
-            console.log(clients[i]);
-            try {
-                clients[i].ws.send(message);
-                sendedClients.push(clients[i]);
-            }
-            catch (e) {
-                // not possible to send message to client
-                errorClients.push(clients[i]);
-            }
-        }*/
         clients = sendedClients;
 
         console.log('broadcast message sent');
