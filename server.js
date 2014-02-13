@@ -4,11 +4,24 @@ console.log('Server Started');
 
 var clients = [];
 
+function getIdByClientId(clientId) {
+    // Get array id of client that sent the message
+    var i, nClients = clients.length;
+    for (i = 0; i < nClients; ++i) {
+        if (clients[i].clientId === clientId) {
+            break;
+        }
+    }
+
+    return i;
+}
+
 wss.on('connection', function(ws) {
     console.log('New connection from a client');
 
     var clientId = ws['_socket']['_handle']['fd'];
     clients.push({clientId: clientId, ws: ws});
+
     console.log('Added new client to client list with id ' + clientId);
 
     // message from client listener
@@ -16,23 +29,17 @@ wss.on('connection', function(ws) {
         var clientId = ws['_socket']['_handle']['fd'];
         console.log('received "%s" from client "%d"', message, clientId);
 
-        // Get array id of client that sent the message
-        var i, nClients = clients.length;
-        for (i = 0; i < nClients; ++i) {
-            if (clients[i].clientId === clientId) {
-                break;
-            }
-        }
+        var id = getIdByClientId(clientId);
 
         try {
             var msg = JSON.parse(message);
 
             // verify if is the message of a new client making handshake
             if (msg.nickname !== null && msg.nickname !== undefined) {
-                clients[i]['nickname'] = msg.nickname;
-                console.log('Received nickname "' + msg.nickname + '" of client' + clients[i].clientId);
+                clients[id]['nickname'] = msg.nickname;
+                console.log('Received nickname "' + msg.nickname + '" of client' + clients[id].clientId);
 
-                sendUsersToClient(clients[i]['ws']);
+                sendUsersToClient(clients[id]['ws']);
 
                 // notify others users of existence of new user
                 broadcast(
@@ -41,7 +48,7 @@ wss.on('connection', function(ws) {
                 );
             } else {
                 // broadcast message of user to all users
-                broadcast(JSON.stringify({user: clients[i].nickname, message: message}));
+                broadcast(JSON.stringify({user: clients[id].nickname, message: message}));
             }
         } catch (e) {
             console.error("Parsing json:", e);
@@ -51,14 +58,19 @@ wss.on('connection', function(ws) {
     // client disconnected
     ws.on('close', function() {
         var clientId = this['_socket']['_handle']['fd'];
-        console.log('disconnected client ' + this['_socket']['_handle']['fd']);
+        console.log('disconnected client ' + clientId);
 
-        var msgJson = [];
-        msgJson['removed_user'] = clients[clientId]['nickname'];
-        msgJson['message'] = "User " + clients[clientId]['nickname'] + " left the chat.";
-        broadcast(JSON.stringify(msgJson));
+        var id = getIdByClientId(clientId);
 
-        delete clients[clientId];
+        broadcast(
+            JSON.stringify({
+                    removed_user: clients[id].nickname,
+                    message: "User " + clients[id].nickname + " left the chat."
+                }
+            )
+        );
+
+        clients.splice(id, 1);
         console.log('removed client ' + clientId + ' from clients list');
     });
 

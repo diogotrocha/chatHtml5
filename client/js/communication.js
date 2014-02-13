@@ -15,6 +15,32 @@ function Communication(nickname) {
         document.getElementById('send').addEventListener('click', sendMessageHandler);
     }
 
+    function writeMessage(msgText) {
+        var message = document.createElement('div');
+        message.setAttribute('class', 'message');
+        message.innerText = msgText;
+        document.getElementById('messages-area').appendChild(message);
+    }
+
+    function addUserToPanel(userNickname) {
+        var user = document.createElement('div');
+        user.setAttribute('class', 'user');
+        user.setAttribute('data-user', userNickname);
+        user.innerText = userNickname;
+        document.getElementById('users-active').appendChild(user);
+    }
+
+    function removeUserFromPanel(userNickname) {
+        var userElem = document.querySelector('.user[data-user="' + userNickname + '"]');
+        userElem.parentNode.removeChild(userElem);
+    }
+
+    function addAllUsersToPanel(nicknames) {
+        nicknames.forEach(function (nickname) {
+            addUserToPanel(nickname);
+        });
+    }
+
     function receiveHandler(msg) {
         msg = JSON.parse(msg);
 
@@ -22,17 +48,15 @@ function Communication(nickname) {
             if (msg.nicknames !== null && msg.nicknames !== undefined) {
                 console.log('Handshake accepted!');
                 handShakeSuccess = true;
-                // add users to aside
+                addAllUsersToPanel(msg.nicknames);
             } else if (msg.new_user !== null && msg.new_user !== undefined) {
-                // add user to aside
-            } else if (msg.remove_user !== null && msg.remove_user !== undefined) {
-                // remove user from aside
-                // show message of user disconnected
+                addUserToPanel(msg.new_user);
+                writeMessage(msg.message);
+            } else if (msg.removed_user !== null && msg.removed_user !== undefined) {
+                removeUserFromPanel(msg.removed_user);
+                writeMessage(msg.message);
             } else if (msg.user !== null && msg.user !== undefined) {
-                var message = document.createElement('div');
-                message.setAttribute('id', 'message');
-                message.innerText = msg['message'];
-                document.getElementById('messages-area').appendChild(message);
+                writeMessage(msg.message);
             } else {
                 console.log('Message with error:');
                 console.log(msg);
@@ -52,8 +76,9 @@ function Communication(nickname) {
 
     function sendMessageHandler() {
         if (handShakeSuccess) {
-            console.log(document.querySelector('textarea[name="user-message"]').value);
-            mySocket.sendMessage({message: document.querySelector('textarea[name="user-message"]').value});
+            var message = document.querySelector('textarea[name="user-message"]').value;
+            console.log();
+            mySocket.sendMessage({message: message});
         } else {
             alert('hand shake error');
         }

@@ -7,7 +7,7 @@
 </head>
 <body>
     <!-- page's header -->
-    <header id="main-header" class="transparent-background">
+    <header id="main-header" class="transparent-background" style="display: none">
         <!-- actions -->
         <nav><button>Logout</button></nav>
 
@@ -15,7 +15,7 @@
     </header>
 
     <div id="main-container">
-        <section id="login-box" class="transparent-background round-box-8px" style="display: none">
+        <section id="login-box" class="transparent-background round-box-8px">
             <form id="login-form">
                 <header>
                     <h1>Start Chatting!</h1>
@@ -28,10 +28,10 @@
         </section>
 
         <!-- chat area -->
-        <section id="chat-area" class="transparent-background round-box-8px">
+        <section id="chat-area" class="transparent-background round-box-8px" style="display: none">
             <div id="messages-users">
                 <!-- users active on chat -->
-                <aside></aside>
+                <aside id="users-active"></aside>
 
                 <!-- messages section -->
                 <section id="messages-area" class="blue-box"></section>
