@@ -8,9 +8,9 @@
         document.getElementById('login-box').style.display = 'none';
 
         // add animations to make elements appear
-        document.getElementById('main-header').style.display = 'block';
+        document.getElementById('chat-header').style.display = 'block';
         document.getElementById('chat-area').style.display = 'block';
 
-        var communication = new Communication(document.getElementById('nickname').value);
+        var communication = new Communication(document.getElementById('nickname').value, new UiHandling());
     });
 })();

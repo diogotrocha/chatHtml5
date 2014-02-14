@@ -9,25 +9,6 @@ body {
     background-image: url('../images/background.jpg');
 }
 
-#main-header {
-    padding-top: 5px;
-    position:fixed;
-    left:5%;
-    top:0px;
-    height:50px;
-    width:90%;
-    -webkit-border-bottom-left-radius: 4px;
-    -webkit-border-bottom-right-radius: 4px;
-    -moz-border-radius-bottomleft: 4px;
-    -moz-border-radius-bottomright: 4px;
-    border-bottom-left-radius: 4px;
-    border-bottom-right-radius: 4px;
-}
-
-#main-header nav {
-    float: right;
-}
-
 #main-container {
     width: 100%;
     text-align: center;
@@ -49,80 +30,6 @@ body {
     -webkit-border-radius: 8px;
     -moz-border-radius: 8px;
     border-radius: 8px;
-}
-
-#chat-area {
-    padding: 20px 30px;
-    margin: 0px auto;
-    width: 1000px;
-}
-
-#messages-users {
-    height: 600px;
-}
-
-#messages-users aside {
-    float: right;
-    width: 200px;
-    height: 100%;
-    border-left: solid 2px dodgerblue;
-}
-
-#messages-area {
-    height: 100%;
-}
-
-#user-message-area {
-    margin-top: 10px;
-    margin-left: auto;
-    margin-right: auto;
-    width: 100%;
-    height: 80px;
-}
-
-#user-message-container {
-    float: left;
-    width: 90%;
-    height: 100%;
-}
-
-#user-message-container > textarea {
-    height: 100%;
-    width: 100%;
-}
-
-#user-message-container > textarea:focus {
-    /* Override browser's default border */
-    outline: none;
-    box-shadow: 0px 0px 1px 1px dodgerblue;
-}
-
-#user-message-container > textarea::-webkit-input-placeholder {
-    font-family: 'myFont', Helvetica, sans-serif;
-    font-size: 16px;
-    font-weight: 600;
-}
-
-#user-message-container > textarea::-moz-placeholder {
-    font-family: 'myFont', Helvetica, sans-serif;
-    font-size: 16px;
-    font-weight: 600;
-}
-
-#send-button-container {
-    float: right;
-}
-
-#send-button-container > button {
-    width: 90px;
-    height: 30px;
-    font-weight: bold;
-}
-
-#send:hover {
-    cursor: pointer;
-    background-color: lightblue;
-    box-shadow: 0px 0px 1px 1px dodgerblue;
 }
 
 #main-footer {

@@ -1,0 +1,136 @@
+#chat-header {
+    padding-top: 5px;
+    position:fixed;
+    left:5%;
+    top:0px;
+    height:50px;
+    width:90%;
+    -webkit-border-bottom-left-radius: 4px;
+    -webkit-border-bottom-right-radius: 4px;
+    -moz-border-radius-bottomleft: 4px;
+    -moz-border-radius-bottomright: 4px;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+}
+
+#chat-header > #btn-logout {
+    float: right;
+}
+
+#chat-area {
+    padding: 20px 30px;
+    margin-top: 80px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 1000px;
+}
+
+#messages-users {
+    height: 400px;
+}
+
+#messages-users > aside {
+    float: right;
+    width: 200px;
+    height: 100%;
+    border-left: solid 2px dodgerblue;
+}
+
+#messages-users > aside > .user {
+    padding: 2px 2px;
+    border-bottom: solid 1px dodgerblue;
+    text-align: left;
+    font-family: Helvetica, Arial, sans-serif;
+    font-weight: bold;
+    color: royalblue;
+}
+
+#messages-area {
+    height: 100%;
+}
+
+#messages-area > .message {
+    padding: 5px 5px;
+    margin-top: 5px;
+}
+
+#messages-area > .message > .datetime-user {
+    float: left;
+    padding: 5px 5px;
+    font-size: 14px;
+    font-weight: bold;
+    line-height: 20px;
+}
+
+#messages-area > .message > .datetime-user > .datetime {
+    color: darkgrey;
+}
+
+#messages-area > .message > .datetime-user > .user {
+    color: dimgrey;
+    margin-left: 5px;
+}
+
+#messages-area > .message > .text {
+    float: left;
+    max-width: 560px;
+    margin-left: 5px;
+    background-color: lightgreen;
+    padding: 5px 5px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+}
+
+#user-message-area {
+    margin-top: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    height: 80px;
+}
+
+#user-message-container {
+    float: left;
+    width: 90%;
+    height: 100%;
+}
+
+#user-message-container > textarea {
+    height: 100%;
+    width: 100%;
+}
+
+#user-message-container > textarea:focus {
+    /* Override browser's default border */
+    outline: none;
+    box-shadow: 0px 0px 1px 1px dodgerblue;
+}
+
+#user-message-container > textarea::-webkit-input-placeholder {
+    font-family: 'myFont', Helvetica, sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+#user-message-container > textarea::-moz-placeholder {
+    font-family: 'myFont', Helvetica, sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+#send-button-container {
+    float: right;
+}
+
+#send-button-container > button {
+    width: 90px;
+    height: 30px;
+    font-weight: bold;
+}
+
+#send:hover {
+    cursor: pointer;
+    background-color: lightblue;
+    box-shadow: 0px 0px 1px 1px dodgerblue;
+}

@@ -4,65 +4,46 @@
  * Establishes the communication protocol with the server
  */
 
-function Communication(nickname) {
+function Communication(nickname, uiHandling) {
     var handShakeSuccess = false;
     var mySocket;
 
     if (!nickname) {
         alert('nickname not defined!');
     } else {
+        // create socket connection
         mySocket = new MySocket('localhost', '8080', receiveHandler, errorHandler, handShakeHandler);
+
+        // register handler to send message
         document.getElementById('send').addEventListener('click', sendMessageHandler);
-    }
 
-    function writeMessage(msgText) {
-        var message = document.createElement('div');
-        message.setAttribute('class', 'message');
-        message.innerText = msgText;
-        document.getElementById('messages-area').appendChild(message);
-    }
-
-    function addUserToPanel(userNickname) {
-        var user = document.createElement('div');
-        user.setAttribute('class', 'user');
-        user.setAttribute('data-user', userNickname);
-        user.innerText = userNickname;
-        document.getElementById('users-active').appendChild(user);
-    }
-
-    function removeUserFromPanel(userNickname) {
-        var userElem = document.querySelector('.user[data-user="' + userNickname + '"]');
-        userElem.parentNode.removeChild(userElem);
-    }
-
-    function addAllUsersToPanel(nicknames) {
-        nicknames.forEach(function (nickname) {
-            addUserToPanel(nickname);
-        });
+        // add nickname to title
+        var userNickname = document.getElementById('user-nickname');
+        userNickname.innerText = userNickname.innerText + '' + nickname;
     }
 
     function receiveHandler(msg) {
-        msg = JSON.parse(msg);
-
         try {
-            if (msg.nicknames !== null && msg.nicknames !== undefined) {
-                console.log('Handshake accepted!');
-                handShakeSuccess = true;
-                addAllUsersToPanel(msg.nicknames);
-            } else if (msg.new_user !== null && msg.new_user !== undefined) {
-                addUserToPanel(msg.new_user);
-                writeMessage(msg.message);
-            } else if (msg.removed_user !== null && msg.removed_user !== undefined) {
-                removeUserFromPanel(msg.removed_user);
-                writeMessage(msg.message);
-            } else if (msg.user !== null && msg.user !== undefined) {
-                writeMessage(msg.message);
-            } else {
-                console.log('Message with error:');
-                console.log(msg);
-            }
+            msg = JSON.parse(msg);
         } catch (e) {
             console.error("Parsing json:", e);
+        }
+
+        if (msg.nicknames !== null && msg.nicknames !== undefined) {
+            console.log('Handshake accepted!');
+            handShakeSuccess = true;
+            uiHandling.addAllUsersToPanel(msg.nicknames);
+        } else if (msg.new_user !== null && msg.new_user !== undefined) {
+            uiHandling.addUserToPanel(msg.new_user);
+            uiHandling.writeServerMessage(msg.message);
+        } else if (msg.removed_user !== null && msg.removed_user !== undefined) {
+            uiHandling.removeUserFromPanel(msg.removed_user);
+            uiHandling.writeServerMessage(msg.message);
+        } else if (msg.user !== null && msg.user !== undefined) {
+            uiHandling.writeUserMessage(msg.datetime, msg.user, msg.message);
+        } else {
+            console.log('Message with error:');
+            console.log(msg);
         }
     }
 
@@ -76,9 +57,9 @@ function Communication(nickname) {
 
     function sendMessageHandler() {
         if (handShakeSuccess) {
-            var message = document.querySelector('textarea[name="user-message"]').value;
-            console.log();
-            mySocket.sendMessage({message: message});
+            var userMessage = document.querySelector('textarea[name="user-message"]');
+            mySocket.sendMessage({message: userMessage.value});
+            userMessage.value = '';
         } else {
             alert('hand shake error');
         }

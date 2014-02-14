@@ -17,6 +17,7 @@ function getIdByClientId(clientId) {
 }
 
 wss.on('connection', function(ws) {
+    console.log('----------------------');
     console.log('New connection from a client');
 
     var clientId = ws['_socket']['_handle']['fd'];
@@ -27,6 +28,7 @@ wss.on('connection', function(ws) {
     // message from client listener
     ws.on('message', function(message) {
         var clientId = ws['_socket']['_handle']['fd'];
+        console.log('----------------------');
         console.log('received "%s" from client "%d"', message, clientId);
 
         var id = getIdByClientId(clientId);
@@ -48,7 +50,10 @@ wss.on('connection', function(ws) {
                 );
             } else {
                 // broadcast message of user to all users
-                broadcast(JSON.stringify({user: clients[id].nickname, message: message}));
+                var date = new Date();
+                var dateStr = date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear()
+                    + ' ' + date.getHours() + ':' + date.getMinutes();
+                broadcast(JSON.stringify({user: clients[id].nickname, message: msg.message, datetime: dateStr}));
             }
         } catch (e) {
             console.error("Parsing json:", e);
@@ -58,6 +63,8 @@ wss.on('connection', function(ws) {
     // client disconnected
     ws.on('close', function() {
         var clientId = this['_socket']['_handle']['fd'];
+
+        console.log('----------------------');
         console.log('disconnected client ' + clientId);
 
         var id = getIdByClientId(clientId);
@@ -71,6 +78,7 @@ wss.on('connection', function(ws) {
         );
 
         clients.splice(id, 1);
+
         console.log('removed client ' + clientId + ' from clients list');
     });
 
@@ -85,7 +93,6 @@ wss.on('connection', function(ws) {
 
     // send message to all users of chat
     function broadcast(message, except) {
-        var sendedClients = [];
         var errorClients = [];
 
         clients.forEach(function(client) {
@@ -93,16 +100,13 @@ wss.on('connection', function(ws) {
                 if (client.nickname !== except) {
                     client.ws.send(message);
                 }
-
-                sendedClients.push(client);
             }
             catch (e) {
                 // not possible to send message to client
                 errorClients.push(client);
             }
         });
-        clients = sendedClients;
 
-        console.log('broadcast message sent');
+        console.log('broadcast message "%s" sent', message);
     }
 });
