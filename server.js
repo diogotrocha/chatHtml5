@@ -62,7 +62,8 @@ wss.on('connection', function(ws) {
 
     // client disconnected
     ws.on('close', function() {
-        var clientId = this['_socket']['_handle']['fd'];
+        var socket = this['_socket'];
+        var clientId = socket['_handle']['fd'];
 
         console.log('----------------------');
         console.log('disconnected client ' + clientId);
