@@ -4,7 +4,7 @@
  * Establishes the communication protocol with the server
  */
 
-function Communication(nickname, uiHandling) {
+function Communication(nickname, uiHandling, storage) {
     var handShakeSuccess = false;
     var mySocket;
 
@@ -19,6 +19,8 @@ function Communication(nickname, uiHandling) {
 
         // add nickname to title
         uiHandling.addNicknameToTitle(nickname);
+
+        uiHandling.loadSavedMessages(storage.getMessages(nickname));
     }
 
     function receiveHandler(msg) {
@@ -32,14 +34,18 @@ function Communication(nickname, uiHandling) {
             console.log('Handshake accepted!');
             handShakeSuccess = true;
             uiHandling.addAllUsersToPanel(msg.nicknames);
+            storage.setUser(nickname);
         } else if (msg.new_user !== null && msg.new_user !== undefined) {
             uiHandling.addUserToPanel(msg.new_user);
             uiHandling.writeServerMessage(msg.datetime, msg.message);
+            storage.setMessage(nickname, msg);
         } else if (msg.removed_user !== null && msg.removed_user !== undefined) {
             uiHandling.removeUserFromPanel(msg.removed_user);
             uiHandling.writeServerMessage(msg.datetime, msg.message);
+            storage.setMessage(nickname, msg);
         } else if (msg.user !== null && msg.user !== undefined) {
             uiHandling.writeUserMessage(msg.datetime, msg.user, msg.message);
+            storage.setMessage(nickname, msg);
         } else {
             console.log('Message with error:');
             console.log(msg);

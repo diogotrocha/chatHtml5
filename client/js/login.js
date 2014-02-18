@@ -8,6 +8,7 @@
     var userMessage = chatArea.querySelector('#user-message');
 
     var communication;
+    var storage = new Storage();
 
     document.getElementById('login-form').addEventListener('submit', function (e) {
         e.stopPropagation();
@@ -20,7 +21,7 @@
         chatHeader.style.display = 'block';
         chatArea.style.display = 'block';
 
-        communication = new Communication(nickname.value, new UiHandling());
+        communication = new Communication(nickname.value, new UiHandling(), storage);
     });
 
     document.getElementById('btn-logout').addEventListener('click', function () {
