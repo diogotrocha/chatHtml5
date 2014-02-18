@@ -16,11 +16,35 @@ function getIdByClientId(clientId) {
     return i;
 }
 
+function getIdByNickname(nickname) {
+    // Get array id of client that sent the message
+    var i, nClients = clients.length;
+    for (i = 0; i < nClients; ++i) {
+        if (clients[i].nickname === nickname) {
+            break;
+        }
+    }
+
+    return i;
+}
+
+function getCurrentDateTime() {
+    var date = new Date();
+    return date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear()
+        + ' ' + date.getHours() + ':' + date.getMinutes();
+}
+
 wss.on('connection', function(ws) {
     console.log('----------------------');
     console.log('New connection from a client');
 
     var clientId = ws['_socket']['_handle']['fd'];
+    var id = getIdByClientId(clientId);
+
+    if (id < clients.length) {
+        disconnectUser(id);
+    }
+
     clients.push({clientId: clientId, ws: ws});
 
     console.log('Added new client to client list with id ' + clientId);
@@ -45,15 +69,16 @@ wss.on('connection', function(ws) {
 
                 // notify others users of existence of new user
                 broadcast(
-                    JSON.stringify({new_user: msg.nickname, message: "User " + msg.nickname + " joined the chat."}),
+                    JSON.stringify({new_user: msg.nickname, message: "User " + msg.nickname + " joined the chat.", datetime: getCurrentDateTime()}),
                     msg.nickname
                 );
+            } else if (msg.close !== null && msg.close !== undefined) {
+                disconnectUser(getIdByNickname(msg.close));
             } else {
                 // broadcast message of user to all users
-                var date = new Date();
-                var dateStr = date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear()
-                    + ' ' + date.getHours() + ':' + date.getMinutes();
-                broadcast(JSON.stringify({user: clients[id].nickname, message: msg.message, datetime: dateStr}));
+                broadcast(
+                    JSON.stringify({user: clients[id].nickname, message: msg.message, datetime: getCurrentDateTime()})
+                );
             }
         } catch (e) {
             console.error("Parsing json:", e);
@@ -63,17 +88,24 @@ wss.on('connection', function(ws) {
     // client disconnected
     ws.on('close', function() {
         var socket = this['_socket'];
-        var clientId = socket['_handle']['fd'];
 
+        if (socket['_handle'] === null || socket['_handle'] === undefined) {
+            return;
+        }
+
+        disconnectUser(getIdByClientId(socket['_handle']['fd']));
+    });
+
+    // disconnect user by its id on array
+    function disconnectUser(id) {
         console.log('----------------------');
         console.log('disconnected client ' + clientId);
-
-        var id = getIdByClientId(clientId);
 
         broadcast(
             JSON.stringify({
                     removed_user: clients[id].nickname,
-                    message: "User " + clients[id].nickname + " left the chat."
+                    message: "User " + clients[id].nickname + " left the chat.",
+                    datetime: getCurrentDateTime()
                 }
             )
         );
@@ -81,8 +113,9 @@ wss.on('connection', function(ws) {
         clients.splice(id, 1);
 
         console.log('removed client ' + clientId + ' from clients list');
-    });
+    }
 
+    // send current users list to a client
     function sendUsersToClient(clientWs) {
         var nicknames = [];
         clients.forEach(function(client) {
@@ -94,6 +127,7 @@ wss.on('connection', function(ws) {
 
     // send message to all users of chat
     function broadcast(message, except) {
+        var sentClients = [];
         var errorClients = [];
 
         clients.forEach(function(client) {
@@ -101,6 +135,8 @@ wss.on('connection', function(ws) {
                 if (client.nickname !== except) {
                     client.ws.send(message);
                 }
+
+                sentClients.push(client);
             }
             catch (e) {
                 // not possible to send message to client

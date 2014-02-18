@@ -9,11 +9,34 @@ function UiHandling() {
     }
 
     return {
-        writeServerMessage: function (msgText) {
-            var message = document.createElement('article');
-            message.setAttribute('class', 'message');
-            message.innerText = msgText;
-            document.getElementById('messages-area').appendChild(message);
+        addNicknameToTitle: function (nickname) {
+            var userNickname = document.getElementById('user-nickname');
+            userNickname.innerText = nickname;
+        },
+
+        writeServerMessage: function (dateTimeStr, msgText) {
+            var dateTime = document.createElement('span');
+            dateTime.setAttribute('class', 'datetime');
+            dateTime.innerText = dateTimeStr;
+
+            var text = document.createElement('span');
+            text.setAttribute('class', 'text');
+            text.innerText = msgText;
+
+            var serverMessage = document.createElement('article');
+            serverMessage.setAttribute('class', 'server-message');
+            serverMessage.appendChild(dateTime);
+            serverMessage.appendChild(text);
+
+            document.getElementById('messages-area').appendChild(serverMessage);
+        },
+
+        getUserMessage: function () {
+            return document.getElementById('user-message').value;
+        },
+
+        clearUserMessage: function () {
+            document.getElementById('user-message').value = '';
         },
 
         writeUserMessage: function (dateTimeStr, userNickname, msgText) {

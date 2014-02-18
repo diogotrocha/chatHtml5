@@ -12,7 +12,7 @@
         <!-- actions -->
         <button id="btn-logout">Logout</button>
 
-        <h4 id="user-nickname">Now Chatting as</h4>
+        <h4>Now Chatting as <span id="user-nickname"></span></h4>
     </header>
 
     <div id="main-container">
@@ -40,6 +40,10 @@
 
                 <!-- messages section -->
                 <section id="messages-area" class="blue-box">
+                    <!--<article class="server-message">
+                        <span class="datetime">10/10/2014 20:22</span>
+                        <span class="text">Fulano saiu do chat.</span>
+                    </article>-->
                     <!--<article class="message">
                         <div class="datetime-user">
                             <span class="datetime">10/10/2014 20:22</span>
@@ -71,7 +75,7 @@
             <form>
                 <section id="user-message-area">
                     <div id="user-message-container">
-                        <textarea required="required" name="user-message" class="blue-box" placeholder="Insert your message"></textarea>
+                        <textarea id="user-message" required="required" name="user-message" class="blue-box" placeholder="Insert your message"></textarea>
                     </div>
                     <div id="send-button-container">
                         <button id="send" type="button" class="blue-box">Send</button>

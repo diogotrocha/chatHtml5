@@ -18,8 +18,7 @@ function Communication(nickname, uiHandling) {
         document.getElementById('send').addEventListener('click', sendMessageHandler);
 
         // add nickname to title
-        var userNickname = document.getElementById('user-nickname');
-        userNickname.innerText = userNickname.innerText + '' + nickname;
+        uiHandling.addNicknameToTitle(nickname);
     }
 
     function receiveHandler(msg) {
@@ -35,10 +34,10 @@ function Communication(nickname, uiHandling) {
             uiHandling.addAllUsersToPanel(msg.nicknames);
         } else if (msg.new_user !== null && msg.new_user !== undefined) {
             uiHandling.addUserToPanel(msg.new_user);
-            uiHandling.writeServerMessage(msg.message);
+            uiHandling.writeServerMessage(msg.datetime, msg.message);
         } else if (msg.removed_user !== null && msg.removed_user !== undefined) {
             uiHandling.removeUserFromPanel(msg.removed_user);
-            uiHandling.writeServerMessage(msg.message);
+            uiHandling.writeServerMessage(msg.datetime, msg.message);
         } else if (msg.user !== null && msg.user !== undefined) {
             uiHandling.writeUserMessage(msg.datetime, msg.user, msg.message);
         } else {
@@ -57,11 +56,18 @@ function Communication(nickname, uiHandling) {
 
     function sendMessageHandler() {
         if (handShakeSuccess) {
-            var userMessage = document.querySelector('textarea[name="user-message"]');
-            mySocket.sendMessage({message: userMessage.value});
-            userMessage.value = '';
+            mySocket.sendMessage({message: uiHandling.getUserMessage()});
+            uiHandling.clearUserMessage()
         } else {
             alert('hand shake error');
+        }
+    }
+
+    return {
+        close: function () {
+            mySocket.sendMessage({close: nickname});
+            mySocket.close();
+            document.getElementById('send').removeEventListener('click', sendMessageHandler);
         }
     }
 }

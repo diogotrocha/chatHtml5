@@ -1,16 +1,45 @@
 (function () {
-    //document.getElementById('submit-login').addEventListener('click', function (e) {
+    var loginBox = document.getElementById('login-box');
+    var nickname = document.getElementById('nickname');
+    var chatHeader = document.getElementById('chat-header');
+    var chatArea = document.getElementById('chat-area');
+    var usersActive = chatArea.querySelector('#users-active');
+    var messagesArea = chatArea.querySelector('#messages-area');
+    var userMessage = chatArea.querySelector('#user-message');
+
+    var communication;
+
     document.getElementById('login-form').addEventListener('submit', function (e) {
         e.stopPropagation();
         e.preventDefault();
 
         // add animation to make element disappear
-        document.getElementById('login-box').style.display = 'none';
+        loginBox.style.display = 'none';
 
         // add animations to make elements appear
-        document.getElementById('chat-header').style.display = 'block';
-        document.getElementById('chat-area').style.display = 'block';
+        chatHeader.style.display = 'block';
+        chatArea.style.display = 'block';
 
-        var communication = new Communication(document.getElementById('nickname').value, new UiHandling());
+        communication = new Communication(nickname.value, new UiHandling());
+    });
+
+    document.getElementById('btn-logout').addEventListener('click', function () {
+        communication.close();
+        nickname.value = '';
+        loginBox.style.display = 'block';
+        chatHeader.style.display = 'none';
+        chatArea.style.display = 'none';
+
+        var nChildren = usersActive.children.length;
+        for (var i = 0; i < nChildren; ++i) {
+            usersActive.removeChild(usersActive.children[0]);
+        }
+
+        nChildren = messagesArea.children.length;
+        for (i = 0; i < nChildren; ++i) {
+            messagesArea.removeChild(messagesArea.children[0]);
+        }
+
+        userMessage.value = '';
     });
 })();

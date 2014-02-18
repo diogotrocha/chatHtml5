@@ -3,37 +3,39 @@
  */
 
 function MySocket(host, port, receiveHandler, errorHandler, handShakeHandler) {
-    this.socket = new WebSocket('ws://' + host + ':' + port);
+    var socket = new WebSocket('ws://' + host + ':' + port);
 
     // When the connection is open, send some data to the server
-    this.socket.onopen = function () {
+    socket.onopen = function () {
         console.log('Client has connected to the server!');
         handShakeHandler();
         console.log('Handshake started!');
     };
 
     // Log errors
-    this.socket.onerror = function (error) {
+    socket.onerror = function (error) {
         console.log('WebSocket Error ' + error);
         errorHandler();
     };
 
     // Log messages from the server
-    this.socket.onmessage = function (e) {
+    socket.onmessage = function (e) {
         console.log('Received a message from the server!', e.data);
         receiveHandler(e.data);
     };
 
-    /*return {
-        constructor: MySocket,
+    socket.onclose = function (e) {
+        console.log('Socket closed. Code: ' + e.code);
+    }
 
+    return {
         sendMessage: function (msg) {
-            this.socket.send(msg);
+            console.log('Message to send: ' + msg);
+            socket.send(JSON.stringify(msg));
+        },
+        close: function () {
+            console.log('Close socket');
+            socket.close();
         }
-    }*/
-}
-
-MySocket.prototype.sendMessage = function (msg) {
-    console.log('Message to send: ' + msg);
-    this.socket.send(JSON.stringify(msg));
+    }
 }
