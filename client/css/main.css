@@ -45,6 +45,12 @@ body {
     -moz-border-radius-topright: 4px;
     border-top-left-radius: 4px;
     border-top-right-radius: 4px;
+
+    -webkit-animation: footer-anime 0.5s;
+    -moz-animation: footer-anime 0.5s;
+    -ms-animation: footer-anime 0.5s;
+    -o-animation: footer-anime 0.5s;
+    animation: footer-anime 0.5s;
 }
 
 #copyright {
@@ -56,3 +62,19 @@ body {
     font-weight: bold;
 }
 
+@keyframes footer-anime {
+    from { height: 0; }
+    to   { height: 30px; }
+}
+@-moz-keyframes footer-anime {
+    from { height: 0; }
+    to   { height: 30px; }
+}
+@-webkit-keyframes footer-anime {
+    from { height: 0; }
+    to   { height: 30px; }
+}
+@-ms-keyframes footer-anime {
+    from { height: 0; }
+    to   { height: 30px; }
+}​

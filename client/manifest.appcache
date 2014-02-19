@@ -1,0 +1,12 @@
+CACHE MANIFEST
+# vesion 1
+/chatHtml5/client/css/main.css
+/chatHtml5/client/css/login.css
+/chatHtml5/client/css/chat.css
+/chatHtml5/client/images/background.jpg
+/chatHtml5/client/js/MySocket.js
+/chatHtml5/client/js/UiHandling.js
+/chatHtml5/client/js/Storage.js
+/chatHtml5/client/js/Communication.js
+/chatHtml5/client/js/login.js
+/chatHtml5/client/index.html

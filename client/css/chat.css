@@ -1,20 +1,47 @@
+button {
+    height: 30px;
+    font-weight: bold;
+}
+
+button:hover {
+    cursor: pointer;
+    background-color: lightblue;
+    box-shadow: 0px 0px 1px 1px dodgerblue;
+}
+
 #chat-header {
-    padding-top: 5px;
-    position:fixed;
-    left:5%;
-    top:0px;
-    height:50px;
-    width:90%;
+    padding-left: 10px;
+    padding-right: 10px;
+    position: fixed;
+    left: 5%;
+    top: 0px;
+    height: 50px;
+    width: 90%;
     -webkit-border-bottom-left-radius: 4px;
     -webkit-border-bottom-right-radius: 4px;
     -moz-border-radius-bottomleft: 4px;
     -moz-border-radius-bottomright: 4px;
     border-bottom-left-radius: 4px;
     border-bottom-right-radius: 4px;
+
+    -webkit-animation: header-anime 0.5s;
+    -moz-animation: header-anime 0.5s;
+    -ms-animation: header-anime 0.5s;
+    -o-animation: header-anime 0.5s;
+    animation: header-anime 0.5s;
+}
+
+#chat-header > h3 {
+    float: left;
+    margin-top: 15px;
+    margin-bottom: 0;
+    color: royalblue;
+    font-weight: bold;
 }
 
 #chat-header > #btn-logout {
     float: right;
+    margin-top: 10px;
 }
 
 #chat-area {
@@ -47,6 +74,7 @@
 
 #messages-area {
     height: 100%;
+    overflow-y: auto;
 }
 
 #messages-area > .server-message {
@@ -61,6 +89,12 @@
     -webkit-border-radius: 4px;
     -moz-border-radius: 4px;
     border-radius: 4px;
+
+    -webkit-animation: fadein-message 0.5s;
+    -moz-animation: fadein-message 0.5s;
+    -ms-animation: fadein-message 0.5s;
+    -o-animation: fadein-message 0.5s;
+    animation: fadein-message 0.5s;
 }
 
 #messages-area > .server-message > .datetime {
@@ -81,7 +115,14 @@
 #messages-area > .message {
     padding: 5px 5px;
     margin-top: 5px;
+
+    -webkit-animation: fadein-message 0.5s;
+    -moz-animation: fadein-message 0.5s;
+    -ms-animation: fadein-message 0.5s;
+    -o-animation: fadein-message 0.5s;
+    animation: fadein-message 0.5s;
 }
+
 
 #messages-area > .message > .datetime-user {
     float: left;
@@ -104,11 +145,20 @@
     float: left;
     max-width: 560px;
     margin-left: 5px;
-    background-color: lightgreen;
+    /*background-color: lightgreen;*/
     padding: 5px 5px;
     -webkit-border-radius: 4px;
     -moz-border-radius: 4px;
     border-radius: 4px;
+
+    background: #d2ff52; /* Old browsers */
+    background: -moz-radial-gradient(center, ellipse cover, #d2ff52 37%, #d2ff52 54%, #b7f446 91%); /* FF3.6+ */
+    background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(37%,#d2ff52), color-stop(54%,#d2ff52), color-stop(91%,#b7f446)); /* Chrome,Safari4+ */
+    background: -webkit-radial-gradient(center, ellipse cover, #d2ff52 37%,#d2ff52 54%,#b7f446 91%); /* Chrome10+,Safari5.1+ */
+    background: -o-radial-gradient(center, ellipse cover, #d2ff52 37%,#d2ff52 54%,#b7f446 91%); /* Opera 12+ */
+    background: -ms-radial-gradient(center, ellipse cover, #d2ff52 37%,#d2ff52 54%,#b7f446 91%); /* IE10+ */
+    background: radial-gradient(ellipse at center, #d2ff52 37%,#d2ff52 54%,#b7f446 91%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d2ff52', endColorstr='#b7f446',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
 }
 
 #user-message-area {
@@ -154,12 +204,40 @@
 
 #send-button-container > button {
     width: 90px;
-    height: 30px;
-    font-weight: bold;
+    display: block;
+    margin-bottom: 10px;
 }
 
-#send:hover {
-    cursor: pointer;
-    background-color: lightblue;
-    box-shadow: 0px 0px 1px 1px dodgerblue;
+@keyframes header-anime {
+    from { height: 0; }
+    to   { height: 50px; }
 }
+@-moz-keyframes header-anime {
+    from { height: 0; }
+    to   { height: 50px; }
+}
+@-webkit-keyframes header-anime {
+    from { height: 0; }
+    to   { height: 50px; }
+}
+@-ms-keyframes header-anime {
+    from { height: 0; }
+    to   { height: 50px; }
+}​
+
+@keyframes fadein-message {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+@-moz-keyframes fadein-message {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+@-webkit-keyframes fadein-message {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+@-ms-keyframes fadein-message {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}​

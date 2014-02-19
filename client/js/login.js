@@ -3,12 +3,11 @@
     var nickname = document.getElementById('nickname');
     var chatHeader = document.getElementById('chat-header');
     var chatArea = document.getElementById('chat-area');
-    var usersActive = chatArea.querySelector('#users-active');
-    var messagesArea = chatArea.querySelector('#messages-area');
     var userMessage = chatArea.querySelector('#user-message');
 
     var communication;
     var storage = new Storage();
+    var uiHandling = new UiHandling();
 
     document.getElementById('login-form').addEventListener('submit', function (e) {
         e.stopPropagation();
@@ -21,7 +20,7 @@
         chatHeader.style.display = 'block';
         chatArea.style.display = 'block';
 
-        communication = new Communication(nickname.value, new UiHandling(), storage);
+        communication = new Communication(nickname.value, uiHandling, storage);
     });
 
     document.getElementById('btn-logout').addEventListener('click', function () {
@@ -31,16 +30,8 @@
         chatHeader.style.display = 'none';
         chatArea.style.display = 'none';
 
-        var nChildren = usersActive.children.length;
-        for (var i = 0; i < nChildren; ++i) {
-            usersActive.removeChild(usersActive.children[0]);
-        }
-
-        nChildren = messagesArea.children.length;
-        for (i = 0; i < nChildren; ++i) {
-            messagesArea.removeChild(messagesArea.children[0]);
-        }
-
+        uiHandling.clearUsers();
+        uiHandling.clearMessages();
         userMessage.value = '';
     });
 })();

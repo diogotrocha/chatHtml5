@@ -17,6 +17,9 @@ function Communication(nickname, uiHandling, storage) {
         // register handler to send message
         document.getElementById('send').addEventListener('click', sendMessageHandler);
 
+        // register handler to clear chat
+        document.getElementById('clear').addEventListener('click', clearMessagesHandler);
+
         // add nickname to title
         uiHandling.addNicknameToTitle(nickname);
 
@@ -67,6 +70,11 @@ function Communication(nickname, uiHandling, storage) {
         } else {
             alert('hand shake error');
         }
+    }
+
+    function clearMessagesHandler() {
+        uiHandling.clearMessages();
+        storage.clear(nickname);
     }
 
     return {

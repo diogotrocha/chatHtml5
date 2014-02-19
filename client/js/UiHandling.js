@@ -3,15 +3,15 @@ function UiHandling() {
     var addNicknameToTitle = function (nickname) {
         var userNickname = document.getElementById('user-nickname');
         userNickname.innerText = nickname;
-    }
+    };
 
     var getUserMessage = function () {
         return document.getElementById('user-message').value;
-    }
+    };
 
     var clearUserMessage = function () {
         document.getElementById('user-message').value = '';
-    }
+    };
 
     var writeServerMessage = function (dateTimeStr, msgText) {
         var dateTime = document.createElement('span');
@@ -28,7 +28,7 @@ function UiHandling() {
         serverMessage.appendChild(text);
 
         document.getElementById('messages-area').appendChild(serverMessage);
-    }
+    };
 
     var writeUserMessage = function (dateTimeStr, userNickname, msgText) {
         var dateTime = document.createElement('span');
@@ -57,8 +57,10 @@ function UiHandling() {
         message.appendChild(text);
         message.appendChild(clear);
 
-        document.getElementById('messages-area').appendChild(message);
-    }
+        var messagesArea = document.getElementById('messages-area')
+        messagesArea.appendChild(message);
+        messagesArea.scrollTop = messagesArea.scrollHeight;
+    };
 
     var addUserToPanel = function (userNickname) {
         var user = document.createElement('div');
@@ -66,18 +68,18 @@ function UiHandling() {
         user.setAttribute('data-user', userNickname);
         user.innerText = userNickname;
         document.getElementById('users-active').appendChild(user);
-    }
+    };
 
     var removeUserFromPanel = function (userNickname) {
         var userElem = document.querySelector('.user[data-user="' + userNickname + '"]');
         userElem.parentNode.removeChild(userElem);
-    }
+    };
 
     var addAllUsersToPanel = function (nicknames) {
         nicknames.forEach(function (nickname) {
             addUserToPanel(nickname);
         });
-    }
+    };
 
     var loadSavedMessages = function (messages) {
         if (messages !== null && messages !== undefined) {
@@ -91,7 +93,23 @@ function UiHandling() {
                 }
             });
         }
-    }
+    };
+
+    var clearUsers = function () {
+        var usersActive = document.getElementById('users-active');
+        var nChildren = usersActive.children.length;
+        for (var i = 0; i < nChildren; ++i) {
+            usersActive.removeChild(usersActive.children[0]);
+        }
+    };
+
+    var clearMessages = function () {
+        var messagesArea = document.getElementById('messages-area');
+        var nChildren = messagesArea.children.length;
+        for (var i = 0; i < nChildren; ++i) {
+            messagesArea.removeChild(messagesArea.children[0]);
+        }
+    };
 
     return {
         addNicknameToTitle: addNicknameToTitle,
@@ -102,6 +120,8 @@ function UiHandling() {
         addUserToPanel: addUserToPanel,
         removeUserFromPanel: removeUserFromPanel,
         addAllUsersToPanel: addAllUsersToPanel,
-        loadSavedMessages: loadSavedMessages
+        loadSavedMessages: loadSavedMessages,
+        clearUsers: clearUsers,
+        clearMessages: clearMessages
     }
 }

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" manifest="manifest.appcache">
 <head>
     <title>Chat HTML5</title>
     <link href="css/main.css" type="text/css" rel="stylesheet"/>
@@ -9,10 +9,10 @@
 <body>
     <!-- page's header -->
     <header id="chat-header" class="transparent-background" style="display: none">
-        <!-- actions -->
-        <button id="btn-logout">Logout</button>
+        <h3>Now Chatting as <span id="user-nickname"></span></h3>
 
-        <h4>Now Chatting as <span id="user-nickname"></span></h4>
+        <!-- actions -->
+        <button id="btn-logout" class="blue-box">Logout</button>
     </header>
 
     <div id="main-container">
@@ -32,7 +32,7 @@
         <section id="chat-area" class="transparent-background round-box-8px" style="display: none">
             <div id="messages-users">
                 <!-- users active on chat -->
-                <aside id="users-active">
+                <aside id="users-active" class="blue-box">
                     <!--<div class="user">user 1</div>
                     <div class="user">user 2</div>
                     <div class="user">user 3</div>-->
@@ -79,6 +79,7 @@
                     </div>
                     <div id="send-button-container">
                         <button id="send" type="button" class="blue-box">Send</button>
+                        <button id="clear" type="button" class="blue-box">Clear</button>
                     </div>
                 </section>
             </form>
@@ -93,8 +94,8 @@
     <!-- javascript files load -->
     <script src="js/MySocket.js"></script>
     <script src="js/UiHandling.js"></script>
-    <script src="js/storage.js"></script>
-    <script src="js/communication.js"></script>
+    <script src="js/Storage.js"></script>
+    <script src="js/Communication.js"></script>
     <script src="js/login.js"></script>
 </body>
 </html>
