@@ -17,6 +17,7 @@ CSS3 features used include gradients, animations, box shadow, border radius and 
 
 ## Run Server
 Run the file "server.js" with node:
+
 node server.js
 
 ## Tests
