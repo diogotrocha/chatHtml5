@@ -1,5 +1,5 @@
 CACHE MANIFEST
-# vesion 1
+# version 1
 /chatHtml5/client/css/main.css
 /chatHtml5/client/css/login.css
 /chatHtml5/client/css/chat.css
@@ -8,5 +8,5 @@ CACHE MANIFEST
 /chatHtml5/client/js/UiHandling.js
 /chatHtml5/client/js/Storage.js
 /chatHtml5/client/js/Communication.js
-/chatHtml5/client/js/login.js
+/chatHtml5/client/js/authentication.js
 /chatHtml5/client/index.html

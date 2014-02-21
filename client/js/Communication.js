@@ -15,7 +15,10 @@ function Communication(nickname, uiHandling, storage) {
         mySocket = new MySocket('localhost', '8080', receiveHandler, errorHandler, handShakeHandler);
 
         // register handler to send message
-        document.getElementById('send').addEventListener('click', sendMessageHandler);
+        document.getElementById('form-message').addEventListener('submit', sendMessageHandler);
+
+        // register handler to send message
+        document.getElementById('user-message').addEventListener('keyup', keyUpSendMessageHandler);
 
         // register handler to clear chat
         document.getElementById('clear').addEventListener('click', clearMessagesHandler);
@@ -63,12 +66,28 @@ function Communication(nickname, uiHandling, storage) {
         mySocket.sendMessage({nickname: nickname});
     }
 
-    function sendMessageHandler() {
+    function sendMessage() {
         if (handShakeSuccess) {
-            mySocket.sendMessage({message: uiHandling.getUserMessage()});
-            uiHandling.clearUserMessage()
+            var message = uiHandling.getUserMessage();
+            if (message !== '') {
+                mySocket.sendMessage({message: message});
+                uiHandling.clearUserMessage()
+            }
         } else {
             alert('hand shake error');
+        }
+    }
+
+    function sendMessageHandler(e) {
+        e.stopPropagation();
+        e.preventDefault();
+
+        sendMessage();
+    }
+
+    function keyUpSendMessageHandler(e) {
+        if (e.keyCode === 13 && !e.shiftKey) {
+            sendMessage();
         }
     }
 
@@ -81,7 +100,9 @@ function Communication(nickname, uiHandling, storage) {
         close: function () {
             mySocket.sendMessage({close: nickname});
             mySocket.close();
-            document.getElementById('send').removeEventListener('click', sendMessageHandler);
+            document.getElementById('form-message').removeEventListener('submit', sendMessageHandler);
+            document.getElementById('user-message').removeEventListener('keyup', keyUpSendMessageHandler);
+            document.getElementById('clear').removeEventListener('click', clearMessagesHandler);
         }
     }
 }

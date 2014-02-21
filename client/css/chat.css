@@ -1,3 +1,7 @@
+/*
+ * Styles for chat view
+ */
+
 button {
     height: 30px;
     font-weight: bold;
@@ -50,26 +54,6 @@ button:hover {
     margin-left: auto;
     margin-right: auto;
     width: 1000px;
-}
-
-#messages-users {
-    height: 400px;
-}
-
-#messages-users > aside {
-    float: right;
-    width: 200px;
-    height: 100%;
-    border-left: solid 2px dodgerblue;
-}
-
-#messages-users > aside > .user {
-    padding: 2px 2px;
-    border-bottom: solid 1px dodgerblue;
-    text-align: left;
-    font-family: Helvetica, Arial, sans-serif;
-    font-weight: bold;
-    color: royalblue;
 }
 
 #messages-area {
@@ -145,6 +129,7 @@ button:hover {
     float: left;
     max-width: 560px;
     margin-left: 5px;
+    text-align: left;
     /*background-color: lightgreen;*/
     padding: 5px 5px;
     -webkit-border-radius: 4px;
@@ -159,6 +144,26 @@ button:hover {
     background: -ms-radial-gradient(center, ellipse cover, #d2ff52 37%,#d2ff52 54%,#b7f446 91%); /* IE10+ */
     background: radial-gradient(ellipse at center, #d2ff52 37%,#d2ff52 54%,#b7f446 91%); /* W3C */
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d2ff52', endColorstr='#b7f446',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+}
+
+#messages-users {
+    height: 400px;
+}
+
+#messages-users > aside {
+    float: right;
+    width: 200px;
+    height: 100%;
+    border-left: solid 2px dodgerblue;
+}
+
+#messages-users > aside > .user {
+    padding: 2px 2px;
+    border-bottom: solid 1px dodgerblue;
+    text-align: left;
+    font-family: Helvetica, Arial, sans-serif;
+    font-weight: bold;
+    color: royalblue;
 }
 
 #user-message-area {

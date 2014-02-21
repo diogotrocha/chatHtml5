@@ -1,3 +1,8 @@
+/*
+ * Storage class
+ *
+ * Implements an interface for using Local Storage for saving messages
+ */
 function Storage() {
     var hasLocalStorage = false;
 

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" manifest="manifest.appcache">
+<html lang="en">
 <head>
     <title>Chat HTML5</title>
     <link href="css/main.css" type="text/css" rel="stylesheet"/>
@@ -21,7 +21,7 @@
                 <header>
                     <h1>Start Chatting!</h1>
                 </header>
-                <div><input id="nickname" required="required" type="text" name="nickname" placeholder="Nickname" /></div>
+                <div><input id="nickname" required="required" autofocus="autofocus" type="text" name="nickname" placeholder="Nickname" /></div>
                 <div id="submit-btn-container">
                     <button id="submit-login" type="submit">Login</button>
                 </div>
@@ -72,13 +72,13 @@
             </div>
 
             <!-- input for user message -->
-            <form>
+            <form id="form-message">
                 <section id="user-message-area">
                     <div id="user-message-container">
                         <textarea id="user-message" required="required" name="user-message" class="blue-box" placeholder="Insert your message"></textarea>
                     </div>
                     <div id="send-button-container">
-                        <button id="send" type="button" class="blue-box">Send</button>
+                        <button id="send" type="submit" class="blue-box">Send</button>
                         <button id="clear" type="button" class="blue-box">Clear</button>
                     </div>
                 </section>
@@ -96,6 +96,6 @@
     <script src="js/UiHandling.js"></script>
     <script src="js/Storage.js"></script>
     <script src="js/Communication.js"></script>
-    <script src="js/login.js"></script>
+    <script src="js/authentication.js"></script>
 </body>
 </html>

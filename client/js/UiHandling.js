@@ -1,3 +1,8 @@
+/*
+ * UiHandling class
+ *
+ * Has static methods for updating the UI content
+ */
 function UiHandling() {
 
     var addNicknameToTitle = function (nickname) {

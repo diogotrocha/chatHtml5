@@ -1,5 +1,7 @@
 /*
  * MySocket Class
+ *
+ * Implements an interface to use WebSockets
  */
 
 function MySocket(host, port, receiveHandler, errorHandler, handShakeHandler) {
@@ -26,7 +28,7 @@ function MySocket(host, port, receiveHandler, errorHandler, handShakeHandler) {
 
     socket.onclose = function (e) {
         console.log('Socket closed. Code: ' + e.code);
-    }
+    };
 
     return {
         sendMessage: function (msg) {

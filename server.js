@@ -1,3 +1,9 @@
+/*
+ * NodeJS WebSocket server
+ *
+ * Uses module "ws"
+ */
+
 var WebSocketServer = require('ws').Server, wss = new WebSocketServer({port: 8080});
 
 console.log('Server Started');
