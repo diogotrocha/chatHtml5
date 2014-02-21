@@ -18,7 +18,7 @@ CSS3 features used include gradients, animations, box shadow, border radius and 
 ## Run Server
 Run the file "server.js" with node:
 
-node server.js
+> node server.js
 
 ## Tests
 The chat was test on Chrome and Firefox and works properly on these browsers.
