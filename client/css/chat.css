@@ -53,7 +53,8 @@ button:hover {
     margin-top: 80px;
     margin-left: auto;
     margin-right: auto;
-    width: 1000px;
+    min-width: 500px;
+    max-width: 1000px;
 }
 
 #messages-area {
@@ -157,13 +158,20 @@ button:hover {
     border-left: solid 2px dodgerblue;
 }
 
-#messages-users > aside > .user {
+#messages-users > aside > ul#users-active{
+    margin: 0;
+    padding: 0;
+}
+
+#messages-users > aside > ul#users-active > li.user {
     padding: 2px 2px;
     border-bottom: solid 1px dodgerblue;
     text-align: left;
     font-family: Helvetica, Arial, sans-serif;
     font-weight: bold;
     color: royalblue;
+    list-style: none;
+    margin-right: 0;
 }
 
 #user-message-area {
@@ -245,4 +253,16 @@ button:hover {
 @-ms-keyframes fadein-message {
     from { opacity: 0; }
     to   { opacity: 1; }
-}​
+}
+
+@media all and (max-width: 980px) {
+    #send-button-container > button {
+        width: 60px;
+    }
+}
+
+@media all and (max-width: 768px) {
+    #user-message-container {
+        width: 85%;
+    }
+}

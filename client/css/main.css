@@ -11,6 +11,8 @@
 body {
     margin: 0;
     background-image: url('../images/background.jpg');
+    background-size: 100% auto;
+    font-family: 'myFont', Helvetica, sans-serif;
 }
 
 #main-container {
@@ -81,4 +83,17 @@ body {
 @-ms-keyframes footer-anime {
     from { height: 0; }
     to   { height: 30px; }
-}​
+}
+
+@media handheld and (max-width: 768px) {
+    #main-footer {
+        display: none;
+    }
+}
+
+@media handheld and (orientation: landscape) {
+    #main-footer {
+        display: none;
+    }
+}
+

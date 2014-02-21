@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" manifest="manifest.appcache">
 <head>
     <title>Chat HTML5</title>
     <link href="css/main.css" type="text/css" rel="stylesheet"/>
@@ -32,43 +32,12 @@
         <section id="chat-area" class="transparent-background round-box-8px" style="display: none">
             <div id="messages-users">
                 <!-- users active on chat -->
-                <aside id="users-active" class="blue-box">
-                    <!--<div class="user">user 1</div>
-                    <div class="user">user 2</div>
-                    <div class="user">user 3</div>-->
+                <aside class="blue-box">
+                    <ul id="users-active"></ul>
                 </aside>
 
                 <!-- messages section -->
-                <section id="messages-area" class="blue-box">
-                    <!--<article class="server-message">
-                        <span class="datetime">10/10/2014 20:22</span>
-                        <span class="text">Fulano saiu do chat.</span>
-                    </article>-->
-                    <!--<article class="message">
-                        <div class="datetime-user">
-                            <span class="datetime">10/10/2014 20:22</span>
-                            <span class="user">User1:</span>
-                        </div>
-                        <div class="text">Olá boa tarde!</div>
-                        <div style="clear: left;"></div>
-                    </article>
-                    <article class="message">
-                        <div class="datetime-user">
-                            <span class="datetime">10/10/2014 20:22</span>
-                            <span class="user">User 2:</span>
-                        </div>
-                        <div class="text">Olá boa tarde!</div>
-                        <div style="clear: left;"></div>
-                    </article>
-                    <article class="message">
-                        <div class="datetime-user">
-                            <span class="datetime">10/10/2014 20:22</span>
-                            <span class="user">User1:</span>
-                        </div>
-                        <div class="text">OO Lorem Ipsum é um texto modelo da indústria tipográfica e de impressão. O Lorem Ipsum tem vindo a ser o texto padrão usado por estas indústrias desde o ano de 1500, quando uma misturou os caracteres de um texto para criar um espécime de livro. Este texto não só sobreviveu 5 séculos, mas também o salto para a tipografia electrónica, mantendo-se essencialmente inalterada.</div>
-                        <div style="clear: left;"></div>
-                    </article>-->
-                </section>
+                <section id="messages-area" class="blue-box"></section>
             </div>
 
             <!-- input for user message -->

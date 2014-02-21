@@ -7,7 +7,9 @@ function UiHandling() {
 
     var addNicknameToTitle = function (nickname) {
         var userNickname = document.getElementById('user-nickname');
-        userNickname.innerText = nickname;
+        console.log(nickname);
+        console.log(userNickname);
+        userNickname.innerHTML = nickname;
     };
 
     var getUserMessage = function () {
@@ -18,31 +20,37 @@ function UiHandling() {
         document.getElementById('user-message').value = '';
     };
 
+    var appendMessage = function (messageNode) {
+        var messagesArea = document.getElementById('messages-area');
+        messagesArea.appendChild(messageNode);
+        messagesArea.scrollTop = messagesArea.scrollHeight;
+    };
+
     var writeServerMessage = function (dateTimeStr, msgText) {
         var dateTime = document.createElement('span');
         dateTime.setAttribute('class', 'datetime');
-        dateTime.innerText = dateTimeStr;
+        dateTime.innerHTML = dateTimeStr;
 
         var text = document.createElement('span');
         text.setAttribute('class', 'text');
-        text.innerText = msgText;
+        text.innerHTML = msgText;
 
         var serverMessage = document.createElement('article');
         serverMessage.setAttribute('class', 'server-message');
         serverMessage.appendChild(dateTime);
         serverMessage.appendChild(text);
 
-        document.getElementById('messages-area').appendChild(serverMessage);
+        appendMessage(serverMessage);
     };
 
     var writeUserMessage = function (dateTimeStr, userNickname, msgText) {
         var dateTime = document.createElement('span');
         dateTime.setAttribute('class', 'datetime');
-        dateTime.innerText = dateTimeStr;
+        dateTime.innerHTML = dateTimeStr;
 
         var user = document.createElement('span');
         user.setAttribute('class', 'user');
-        user.innerText = userNickname + ':';
+        user.innerHTML = userNickname + ':';
 
         var dateTimeUser = document.createElement('div');
         dateTimeUser.setAttribute('class', 'datetime-user');
@@ -51,7 +59,7 @@ function UiHandling() {
 
         var text = document.createElement('div');
         text.setAttribute('class', 'text');
-        text.innerText = msgText;
+        text.innerHTML = msgText;
 
         var clear = document.createElement('div');
         clear.style.clear = 'left';
@@ -62,16 +70,14 @@ function UiHandling() {
         message.appendChild(text);
         message.appendChild(clear);
 
-        var messagesArea = document.getElementById('messages-area')
-        messagesArea.appendChild(message);
-        messagesArea.scrollTop = messagesArea.scrollHeight;
+        appendMessage(message);
     };
 
     var addUserToPanel = function (userNickname) {
-        var user = document.createElement('div');
+        var user = document.createElement('li');
         user.setAttribute('class', 'user');
         user.setAttribute('data-user', userNickname);
-        user.innerText = userNickname;
+        user.innerHTML = userNickname;
         document.getElementById('users-active').appendChild(user);
     };
 

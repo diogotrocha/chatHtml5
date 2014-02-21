@@ -87,6 +87,7 @@ function Communication(nickname, uiHandling, storage) {
 
     function keyUpSendMessageHandler(e) {
         if (e.keyCode === 13 && !e.shiftKey) {
+            //document.getElementById('send').click();
             sendMessage();
         }
     }

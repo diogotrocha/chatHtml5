@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="en" manifest="manifest.appcache">
+<head>
+    <title>Chat HTML5</title>
+    <style>
+    /*
+     * General styles
+     */
+
+    *, *:before, *:after {
+        -moz-box-sizing: border-box;
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+    }
+
+    body {
+        margin: 0;
+        background-image: url('https://dl.dropboxusercontent.com/s/i46ghbnn6o4dddk/background.jpg');
+        background-size: 100% auto;
+    }
+
+    #main-container {
+        width: 100%;
+        text-align: center;
+    }
+
+    .blue-box {
+        background-color: rgba(226, 250, 255, 0.7);
+        border: solid 2px dodgerblue;
+        -webkit-border-radius: 4px;
+        -moz-border-radius: 4px;
+        border-radius: 4px;
+    }
+
+    .transparent-background {
+        background-color: rgba(100, 100, 100, 0.2);
+    }
+
+    .round-box-8px {
+        -webkit-border-radius: 8px;
+        -moz-border-radius: 8px;
+        border-radius: 8px;
+    }
+
+    #main-footer {
+        padding-top: 5px;
+        position:fixed;
+        left:5%;
+        bottom:0px;
+        height:30px;
+        width:90%;
+        -webkit-border-top-left-radius: 4px;
+        -webkit-border-top-right-radius: 4px;
+        -moz-border-radius-topleft: 4px;
+        -moz-border-radius-topright: 4px;
+        border-top-left-radius: 4px;
+        border-top-right-radius: 4px;
+
+        -webkit-animation: footer-anime 0.5s;
+        -moz-animation: footer-anime 0.5s;
+        -ms-animation: footer-anime 0.5s;
+        -o-animation: footer-anime 0.5s;
+        animation: footer-anime 0.5s;
+    }
+
+    #copyright {
+        width: 200px;
+        margin-left: auto;
+        margin-right: auto;
+        text-align: center;
+        color: royalblue;
+        font-weight: bold;
+    }
+
+    @keyframes footer-anime {
+        from { height: 0; }
+        to   { height: 30px; }
+    }
+    @-moz-keyframes footer-anime {
+        from { height: 0; }
+        to   { height: 30px; }
+    }
+    @-webkit-keyframes footer-anime {
+        from { height: 0; }
+        to   { height: 30px; }
+    }
+    @-ms-keyframes footer-anime {
+        from { height: 0; }
+        to   { height: 30px; }
+    }
+
+    @media handheld and (max-width: 768px) {
+        #main-footer {
+            display: none;
+        }
+    }
+
+    @media handheld and (orientation: landscape) {
+        #main-footer {
+            display: none;
+        }
+    }
+
+    /*
+     * Styles for login view
+     */
+
+    #login-box {
+        width: 400px;
+        margin-top: 100px;
+        margin-right: auto;
+        margin-left: auto;
+        padding: 50px 0;
+    }
+
+    #login-box header > h1 {
+        font-family: Helvetica, Arial, sans-serif;
+        margin-top: 0px;
+        color: royalblue;
+    }
+
+    #login-box input[type=text] {
+        width: 60%;
+        height: 50px;
+        margin-right: auto;
+        margin-left: auto;
+        -webkit-border-radius: 6px;
+        -moz-border-radius: 6px;
+        border-radius: 6px;
+        border: solid 2px dodgerblue;
+        padding-left: 5px;
+        font-family: 'myFont', Helvetica, sans-serif;
+        font-size: 16px;
+        font-weight: bold;
+        text-align: center;
+        color: royalblue;
+    }
+
+    #login-box input[type=text] {
+        outline: none;
+    }
+
+    #login-box input[type=text]::-webkit-input-placeholder {
+        font-family: 'myFont', Helvetica, sans-serif;
+        font-size: 16px;
+        font-weight: bold;
+    }
+
+    #login-box input[type=text]::-moz-placeholder {
+        font-family: 'myFont', Helvetica, sans-serif;
+        font-size: 16px;
+        font-weight: bold;
+    }
+
+    #login-box #submit-btn-container {
+        margin-top: 15px;
+    }
+
+    #login-box button[type=submit] {
+        width: 60%;
+        height: 50px;
+        margin-right: auto;
+        margin-left: auto;
+        background-color: white;
+        -webkit-border-radius: 6px;
+        -moz-border-radius: 6px;
+        border-radius: 6px;
+        border: solid 2px dodgerblue;
+        font-family: 'myFont', Helvetica, sans-serif;
+        font-size: 20px;
+        font-weight: bold;
+        color: royalblue;
+    }
+
+    #login-box button[type=submit]:hover {
+        cursor: pointer;
+        outline: none;
+    }
+
+    /*
+    * Styles for chat view
+    */
+
+    button {
+        height: 30px;
+        font-weight: bold;
+    }
+
+    button:hover {
+        cursor: pointer;
+        background-color: lightblue;
+        box-shadow: 0px 0px 1px 1px dodgerblue;
+    }
+
+    #chat-header {
+        padding-left: 10px;
+        padding-right: 10px;
+        position: fixed;
+        left: 5%;
+        top: 0px;
+        height: 50px;
+        width: 90%;
+        -webkit-border-bottom-left-radius: 4px;
+        -webkit-border-bottom-right-radius: 4px;
+        -moz-border-radius-bottomleft: 4px;
+        -moz-border-radius-bottomright: 4px;
+        border-bottom-left-radius: 4px;
+        border-bottom-right-radius: 4px;
+
+        -webkit-animation: header-anime 0.5s;
+        -moz-animation: header-anime 0.5s;
+        -ms-animation: header-anime 0.5s;
+        -o-animation: header-anime 0.5s;
+        animation: header-anime 0.5s;
+    }
+
+    #chat-header > h3 {
+        float: left;
+        margin-top: 15px;
+        margin-bottom: 0;
+        color: royalblue;
+        font-weight: bold;
+    }
+
+    #chat-header > #btn-logout {
+        float: right;
+        margin-top: 10px;
+    }
+
+    #chat-area {
+        padding: 20px 30px;
+        margin-top: 80px;
+        margin-left: auto;
+        margin-right: auto;
+        min-width: 500px;
+        max-width: 1000px;
+    }
+
+    #messages-area {
+        height: 100%;
+        overflow-y: auto;
+    }
+
+    #messages-area > .server-message {
+        padding: 5px 5px;
+        margin-top: 5px;
+        margin-left: 20%;
+        margin-right: 40%;
+        background-color: #cfcfcf;
+        -webkit-box-shadow: inset 0px 0px 10px 0px rgba(150,150,150,1);
+        -moz-box-shadow: inset 0px 0px 10px 0px rgba(150,150,150,1);
+        box-shadow: inset 0px 0px 10px 0px rgba(150,150,150,1);
+        -webkit-border-radius: 4px;
+        -moz-border-radius: 4px;
+        border-radius: 4px;
+
+        -webkit-animation: fadein-message 0.5s;
+        -moz-animation: fadein-message 0.5s;
+        -ms-animation: fadein-message 0.5s;
+        -o-animation: fadein-message 0.5s;
+        animation: fadein-message 0.5s;
+    }
+
+    #messages-area > .server-message > .datetime {
+        font-size: 14px;
+        font-weight: bold;
+        line-height: 20px;
+        color: darkslategrey;
+    }
+
+    #messages-area > .server-message > .text {
+        color: dimgrey;
+        margin-left: 5px;
+        font-size: 14px;
+        font-weight: bold;
+        line-height: 20px;
+    }
+
+    #messages-area > .message {
+        padding: 5px 5px;
+        margin-top: 5px;
+
+        -webkit-animation: fadein-message 0.5s;
+        -moz-animation: fadein-message 0.5s;
+        -ms-animation: fadein-message 0.5s;
+        -o-animation: fadein-message 0.5s;
+        animation: fadein-message 0.5s;
+    }
+
+
+    #messages-area > .message > .datetime-user {
+        float: left;
+        padding: 5px 5px;
+        font-size: 14px;
+        font-weight: bold;
+        line-height: 20px;
+    }
+
+    #messages-area > .message > .datetime-user > .datetime {
+        color: darkgrey;
+    }
+
+    #messages-area > .message > .datetime-user > .user {
+        color: dimgrey;
+        margin-left: 5px;
+    }
+
+    #messages-area > .message > .text {
+        float: left;
+        max-width: 560px;
+        margin-left: 5px;
+        text-align: left;
+        /*background-color: lightgreen;*/
+        padding: 5px 5px;
+        -webkit-border-radius: 4px;
+        -moz-border-radius: 4px;
+        border-radius: 4px;
+
+        background: #d2ff52; /* Old browsers */
+        background: -moz-radial-gradient(center, ellipse cover, #d2ff52 37%, #d2ff52 54%, #b7f446 91%); /* FF3.6+ */
+        background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(37%,#d2ff52), color-stop(54%,#d2ff52), color-stop(91%,#b7f446)); /* Chrome,Safari4+ */
+        background: -webkit-radial-gradient(center, ellipse cover, #d2ff52 37%,#d2ff52 54%,#b7f446 91%); /* Chrome10+,Safari5.1+ */
+        background: -o-radial-gradient(center, ellipse cover, #d2ff52 37%,#d2ff52 54%,#b7f446 91%); /* Opera 12+ */
+        background: -ms-radial-gradient(center, ellipse cover, #d2ff52 37%,#d2ff52 54%,#b7f446 91%); /* IE10+ */
+        background: radial-gradient(ellipse at center, #d2ff52 37%,#d2ff52 54%,#b7f446 91%); /* W3C */
+        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d2ff52', endColorstr='#b7f446',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+    }
+
+    #messages-users {
+        height: 400px;
+    }
+
+    #messages-users > aside {
+        float: right;
+        width: 200px;
+        height: 100%;
+        border-left: solid 2px dodgerblue;
+    }
+
+    #messages-users > aside > ul#users-active{
+        margin: 0;
+        padding: 0;
+    }
+
+    #messages-users > aside > ul#users-active > li.user {
+        padding: 2px 2px;
+        border-bottom: solid 1px dodgerblue;
+        text-align: left;
+        font-family: Helvetica, Arial, sans-serif;
+        font-weight: bold;
+        color: royalblue;
+        list-style: none;
+        margin-right: 0;
+    }
+
+    #user-message-area {
+        margin-top: 10px;
+        margin-left: auto;
+        margin-right: auto;
+        width: 100%;
+        height: 80px;
+    }
+
+    #user-message-container {
+        float: left;
+        width: 90%;
+        height: 100%;
+    }
+
+    #user-message-container > textarea {
+        height: 100%;
+        width: 100%;
+    }
+
+    #user-message-container > textarea:focus {
+        /* Override browser's default border */
+        outline: none;
+        box-shadow: 0px 0px 1px 1px dodgerblue;
+    }
+
+    #user-message-container > textarea::-webkit-input-placeholder {
+        font-family: 'myFont', Helvetica, sans-serif;
+        font-size: 16px;
+        font-weight: 600;
+    }
+
+    #user-message-container > textarea::-moz-placeholder {
+        font-family: 'myFont', Helvetica, sans-serif;
+        font-size: 16px;
+        font-weight: 600;
+    }
+
+    #send-button-container {
+        float: right;
+    }
+
+    #send-button-container > button {
+        width: 90px;
+        display: block;
+        margin-bottom: 10px;
+    }
+
+    @keyframes header-anime {
+        from { height: 0; }
+        to   { height: 50px; }
+    }
+    @-moz-keyframes header-anime {
+        from { height: 0; }
+        to   { height: 50px; }
+    }
+    @-webkit-keyframes header-anime {
+        from { height: 0; }
+        to   { height: 50px; }
+    }
+    @-ms-keyframes header-anime {
+        from { height: 0; }
+        to   { height: 50px; }
+    }​
+
+    @keyframes fadein-message {
+        from { opacity: 0; }
+        to   { opacity: 1; }
+    }
+    @-moz-keyframes fadein-message {
+        from { opacity: 0; }
+        to   { opacity: 1; }
+    }
+    @-webkit-keyframes fadein-message {
+        from { opacity: 0; }
+        to   { opacity: 1; }
+    }
+    @-ms-keyframes fadein-message {
+        from { opacity: 0; }
+        to   { opacity: 1; }
+    }
+
+    @media all and (max-width: 980px) {
+        #send-button-container > button {
+            width: 60px;
+        }
+    }
+
+    @media all and (max-width: 768px) {
+        #user-message-container {
+            width: 85%;
+        }
+    }
+
+    </style>
+</head>
+<body>
+<!-- page's header -->
+<header id="chat-header" class="transparent-background" style="display: none">
+    <h3>Now Chatting as <span id="user-nickname"></span></h3>
+
+    <!-- actions -->
+    <button id="btn-logout" class="blue-box">Logout</button>
+</header>
+
+<div id="main-container">
+    <section id="login-box" class="transparent-background round-box-8px">
+        <form id="login-form">
+            <header>
+                <h1>Start Chatting!</h1>
+            </header>
+            <div><input id="nickname" required="required" autofocus="autofocus" type="text" name="nickname" placeholder="Nickname" /></div>
+            <div id="submit-btn-container">
+                <button id="submit-login" type="submit">Login</button>
+            </div>
+        </form>
+    </section>
+
+    <!-- chat area -->
+    <section id="chat-area" class="transparent-background round-box-8px" style="display: none">
+        <div id="messages-users">
+            <!-- users active on chat -->
+            <aside class="blue-box">
+                <ul id="users-active"></ul>
+            </aside>
+
+            <!-- messages section -->
+            <section id="messages-area" class="blue-box"></section>
+        </div>
+
+        <!-- input for user message -->
+        <form id="form-message">
+            <section id="user-message-area">
+                <div id="user-message-container">
+                    <textarea id="user-message" required="required" name="user-message" class="blue-box" placeholder="Insert your message"></textarea>
+                </div>
+                <div id="send-button-container">
+                    <button id="send" type="submit" class="blue-box">Send</button>
+                    <button id="clear" type="button" class="blue-box">Clear</button>
+                </div>
+            </section>
+        </form>
+    </section>
+</div>
+
+<!-- page's footer -->
+<footer id="main-footer" class="transparent-background">
+    <div id="copyright">&copy; Diogo Rocha</div>
+</footer>
+
+<!-- javascript files load -->
+<script>
+    /*
+     * MySocket Class
+     *
+     * Implements an interface to use WebSockets
+     */
+    function MySocket(host, port, receiveHandler, errorHandler, handShakeHandler) {
+        var socket = new WebSocket('ws://' + host + ':' + port);
+
+        // When the connection is open, send some data to the server
+        socket.onopen = function () {
+            console.log('Client has connected to the server!');
+            handShakeHandler();
+            console.log('Handshake started!');
+        };
+
+        // Log errors
+        socket.onerror = function (error) {
+            console.log('WebSocket Error ' + error);
+            errorHandler();
+        };
+
+        // Log messages from the server
+        socket.onmessage = function (e) {
+            console.log('Received a message from the server!', e.data);
+            receiveHandler(e.data);
+        };
+
+        socket.onclose = function (e) {
+            console.log('Socket closed. Code: ' + e.code);
+        };
+
+        return {
+            sendMessage: function (msg) {
+                console.log('Message to send: ' + msg);
+                socket.send(JSON.stringify(msg));
+            },
+            close: function () {
+                console.log('Close socket');
+                socket.close();
+            }
+        }
+    }
+
+    /*
+     * UiHandling class
+     *
+     * Has static methods for updating the UI content
+     */
+    function UiHandling() {
+
+        var addNicknameToTitle = function (nickname) {
+            var userNickname = document.getElementById('user-nickname');
+            console.log(nickname);
+            console.log(userNickname);
+            userNickname.innerHTML = nickname;
+        };
+
+        var getUserMessage = function () {
+            return document.getElementById('user-message').value;
+        };
+
+        var clearUserMessage = function () {
+            document.getElementById('user-message').value = '';
+        };
+
+        var writeServerMessage = function (dateTimeStr, msgText) {
+            var dateTime = document.createElement('span');
+            dateTime.setAttribute('class', 'datetime');
+            dateTime.innerHTML = dateTimeStr;
+
+            var text = document.createElement('span');
+            text.setAttribute('class', 'text');
+            text.innerHTML = msgText;
+
+            var serverMessage = document.createElement('article');
+            serverMessage.setAttribute('class', 'server-message');
+            serverMessage.appendChild(dateTime);
+            serverMessage.appendChild(text);
+
+            document.getElementById('messages-area').appendChild(serverMessage);
+        };
+
+        var writeUserMessage = function (dateTimeStr, userNickname, msgText) {
+            var dateTime = document.createElement('span');
+            dateTime.setAttribute('class', 'datetime');
+            dateTime.innerHTML = dateTimeStr;
+
+            var user = document.createElement('span');
+            user.setAttribute('class', 'user');
+            user.innerHTML = userNickname + ':';
+
+            var dateTimeUser = document.createElement('div');
+            dateTimeUser.setAttribute('class', 'datetime-user');
+            dateTimeUser.appendChild(dateTime);
+            dateTimeUser.appendChild(user);
+
+            var text = document.createElement('div');
+            text.setAttribute('class', 'text');
+            text.innerHTML = msgText;
+
+            var clear = document.createElement('div');
+            clear.style.clear = 'left';
+
+            var message = document.createElement('article');
+            message.setAttribute('class', 'message');
+            message.appendChild(dateTimeUser);
+            message.appendChild(text);
+            message.appendChild(clear);
+
+            var messagesArea = document.getElementById('messages-area')
+            messagesArea.appendChild(message);
+            messagesArea.scrollTop = messagesArea.scrollHeight;
+        };
+
+        var addUserToPanel = function (userNickname) {
+            var user = document.createElement('li');
+            user.setAttribute('class', 'user');
+            user.setAttribute('data-user', userNickname);
+            user.innerHTML = userNickname;
+            document.getElementById('users-active').appendChild(user);
+        };
+
+        var removeUserFromPanel = function (userNickname) {
+            var userElem = document.querySelector('.user[data-user="' + userNickname + '"]');
+            userElem.parentNode.removeChild(userElem);
+        };
+
+        var addAllUsersToPanel = function (nicknames) {
+            nicknames.forEach(function (nickname) {
+                addUserToPanel(nickname);
+            });
+        };
+
+        var loadSavedMessages = function (messages) {
+            if (messages !== null && messages !== undefined) {
+                messages.forEach(function (msg) {
+                    if (msg.new_user !== null && msg.new_user !== undefined) {
+                        writeServerMessage(msg.datetime, msg.message);
+                    } else if (msg.removed_user !== null && msg.removed_user !== undefined) {
+                        writeServerMessage(msg.datetime, msg.message);
+                    } else if (msg.user !== null && msg.user !== undefined) {
+                        writeUserMessage(msg.datetime, msg.user, msg.message);
+                    }
+                });
+            }
+        };
+
+        var clearUsers = function () {
+            var usersActive = document.getElementById('users-active');
+            var nChildren = usersActive.children.length;
+            for (var i = 0; i < nChildren; ++i) {
+                usersActive.removeChild(usersActive.children[0]);
+            }
+        };
+
+        var clearMessages = function () {
+            var messagesArea = document.getElementById('messages-area');
+            var nChildren = messagesArea.children.length;
+            for (var i = 0; i < nChildren; ++i) {
+                messagesArea.removeChild(messagesArea.children[0]);
+            }
+        };
+
+        return {
+            addNicknameToTitle: addNicknameToTitle,
+            writeServerMessage: writeServerMessage,
+            getUserMessage: getUserMessage,
+            clearUserMessage: clearUserMessage,
+            writeUserMessage: writeUserMessage,
+            addUserToPanel: addUserToPanel,
+            removeUserFromPanel: removeUserFromPanel,
+            addAllUsersToPanel: addAllUsersToPanel,
+            loadSavedMessages: loadSavedMessages,
+            clearUsers: clearUsers,
+            clearMessages: clearMessages
+        }
+    }
+
+    /*
+     * Storage class
+     *
+     * Implements an interface for using Local Storage for saving messages
+     */
+    function Storage() {
+        var hasLocalStorage = false;
+
+        try {
+            localStorage.setItem('a', 'a');
+            localStorage.removeItem('a');
+            hasLocalStorage = true;
+        } catch(e) {}
+
+        return {
+            setUser: function (nickname) {
+                if (hasLocalStorage) {
+                    var nick = localStorage.getItem(nickname);
+                    if (nick === null || nick === undefined) {
+                        localStorage.setItem(nickname, JSON.stringify([]));
+                    }
+                }
+            },
+            setMessage: function (nickname, msg) {
+                if (hasLocalStorage) {
+                    var messages = JSON.parse(localStorage.getItem(nickname));
+                    messages.push(msg);
+                    localStorage.setItem(nickname, JSON.stringify(messages));
+                }
+            },
+            getMessages: function (nickname) {
+                if (hasLocalStorage) {
+                    return JSON.parse(localStorage.getItem(nickname));
+                }
+
+                return [];
+            },
+            clear: function (nickname) {
+                localStorage.removeItem(nickname);
+            }
+        }
+    }
+
+    /*
+     * Communication class
+     *
+     * Establishes the communication protocol with the server
+     */
+
+    function Communication(nickname, uiHandling, storage) {
+        var handShakeSuccess = false;
+        var mySocket;
+
+        if (!nickname) {
+            alert('nickname not defined!');
+        } else {
+            // create socket connection
+            mySocket = new MySocket('localhost', '8080', receiveHandler, errorHandler, handShakeHandler);
+
+            // register handler to send message
+            document.getElementById('form-message').addEventListener('submit', sendMessageHandler);
+
+            // register handler to send message
+            document.getElementById('user-message').addEventListener('keyup', keyUpSendMessageHandler);
+
+            // register handler to clear chat
+            document.getElementById('clear').addEventListener('click', clearMessagesHandler);
+
+            // add nickname to title
+            uiHandling.addNicknameToTitle(nickname);
+
+            uiHandling.loadSavedMessages(storage.getMessages(nickname));
+        }
+
+        function receiveHandler(msg) {
+            try {
+                msg = JSON.parse(msg);
+            } catch (e) {
+                console.error("Parsing json:", e);
+            }
+
+            if (msg.nicknames !== null && msg.nicknames !== undefined) {
+                console.log('Handshake accepted!');
+                handShakeSuccess = true;
+                uiHandling.addAllUsersToPanel(msg.nicknames);
+                storage.setUser(nickname);
+            } else if (msg.new_user !== null && msg.new_user !== undefined) {
+                uiHandling.addUserToPanel(msg.new_user);
+                uiHandling.writeServerMessage(msg.datetime, msg.message);
+                storage.setMessage(nickname, msg);
+            } else if (msg.removed_user !== null && msg.removed_user !== undefined) {
+                uiHandling.removeUserFromPanel(msg.removed_user);
+                uiHandling.writeServerMessage(msg.datetime, msg.message);
+                storage.setMessage(nickname, msg);
+            } else if (msg.user !== null && msg.user !== undefined) {
+                uiHandling.writeUserMessage(msg.datetime, msg.user, msg.message);
+                storage.setMessage(nickname, msg);
+            } else {
+                console.log('Message with error:');
+                console.log(msg);
+            }
+        }
+
+        function errorHandler() {
+            alert('error connecting to server!');
+        }
+
+        function handShakeHandler() {
+            mySocket.sendMessage({nickname: nickname});
+        }
+
+        function sendMessage() {
+            if (handShakeSuccess) {
+                var message = uiHandling.getUserMessage();
+                if (message !== '') {
+                    mySocket.sendMessage({message: message});
+                    uiHandling.clearUserMessage()
+                }
+            } else {
+                alert('hand shake error');
+            }
+        }
+
+        function sendMessageHandler(e) {
+            e.stopPropagation();
+            e.preventDefault();
+
+            sendMessage();
+        }
+
+        function keyUpSendMessageHandler(e) {
+            if (e.keyCode === 13 && !e.shiftKey) {
+                //document.getElementById('send').click();
+                sendMessage();
+            }
+        }
+
+        function clearMessagesHandler() {
+            uiHandling.clearMessages();
+            storage.clear(nickname);
+        }
+
+        return {
+            close: function () {
+                mySocket.sendMessage({close: nickname});
+                mySocket.close();
+                document.getElementById('form-message').removeEventListener('submit', sendMessageHandler);
+                document.getElementById('user-message').removeEventListener('keyup', keyUpSendMessageHandler);
+                document.getElementById('clear').removeEventListener('click', clearMessagesHandler);
+            }
+        }
+    }
+
+    /*
+     * Registry of Login and Logout actions
+     */
+    (function () {
+        var loginBox = document.getElementById('login-box');
+        var nickname = document.getElementById('nickname');
+        var chatHeader = document.getElementById('chat-header');
+        var chatArea = document.getElementById('chat-area');
+        var userMessage = chatArea.querySelector('#user-message');
+
+        var communication;
+        var storage = new Storage();
+        var uiHandling = new UiHandling();
+
+        // login action
+        document.getElementById('login-form').addEventListener('submit', function (e) {
+            e.stopPropagation();
+            e.preventDefault();
+
+            // add animation to make element disappear
+            loginBox.style.display = 'none';
+
+            // add animations to make elements appear
+            chatHeader.style.display = 'block';
+            chatArea.style.display = 'block';
+
+            userMessage.focus();
+
+            communication = new Communication(nickname.value, uiHandling, storage);
+        });
+
+        // logout action
+        document.getElementById('btn-logout').addEventListener('click', function () {
+            communication.close();
+            nickname.value = '';
+
+            loginBox.style.display = 'block';
+            chatHeader.style.display = 'none';
+            chatArea.style.display = 'none';
+
+            uiHandling.clearUsers();
+            uiHandling.clearMessages();
+            userMessage.value = '';
+
+            nickname.focus();
+        });
+    })();
+</script>
+</body>
+</html>
